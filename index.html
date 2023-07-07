@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pig Latin Translator</title>
+  <script>
+    /*
+     * Project Name: Pig Latin
+     * Author: Alexandre Correia
+     * Date: 07/07/2023
+     * 
+     * Pseudo-code:
+     * 1. Define a function to translate the input text into Pig Latin
+     * 2. Get references to the input text field and the output div
+     * 3. Add an event listener to the Translate button
+     * 4. Implement the translation logic based on the provided rules
+     * 5. Display the translated text or an error message in the output div
+     */
+
+    function translate() {
+      // Step 4: Implement the translation logic
+      const input = document.getElementById('inputText').value.trim();
+      const outputDiv = document.getElementById('output');
+
+      // Step 5: Display the translated text or an error message
+      if (input === '') {
+        outputDiv.textContent = "Please enter a sentence.";
+        return;
+      }
+
+      let inputLower = input.toLowerCase();
+      const words = inputLower.split(' ');
+      const translatedWords = [];
+
+      for (let word of words) {
+        if (word.length === 1) {
+          continue;
+        } else if (isVowel(word.charAt(0))) {
+          translatedWords.push(word + 'way');
+        } else if (isConsonant(word.charAt(0))) {
+          if (isConsonant(word.charAt(1))) {
+            translatedWords.push(word.slice(2) + word.slice(0, 2) + 'ay');
+          } else {
+            translatedWords.push(word.slice(1) + word.charAt(0) + 'ay');
+          }
+        } else {
+          continue;
+        }
+      }
+
+      if (translatedWords.length === 0) {
+        outputDiv.textContent = "Input can't be translated.";
+      } else {
+        const translatedText = translatedWords.join(' ');
+        outputDiv.textContent = translatedText;
+      }
+    }
+
+    function isVowel(letter) {
+      return ['a', 'e', 'i', 'o', 'u'].includes(letter);
+    }
+
+    function isConsonant(letter) {
+      return !isVowel(letter);
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Pig Latin Translator</h1>
+
+  <input type="text" id="inputText" placeholder="Enter a sentence">
+  <button id="translateButton">Translate</button>
+
+  <div id="output"></div>
+
+  <script>
+    const translateButton = document.getElementById('translateButton');
+
+    translateButton.addEventListener('click', translate);
+  </script>
+</body>
+
+</html>
